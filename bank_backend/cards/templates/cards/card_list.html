@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Tarjetas</title>
+</head>
+<body>
+    <h1>Lista de Tarjetas</h1>
+    <ul>
+        {% for card in cards %}
+            <li>
+                {{ card.card_type }} - Número de Tarjeta: {{ card.card_number|slice:"-4:" }}
+                <a href="{% url 'card_detail' card.pk %}">Ver Detalles</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Clientes</title>
+</head>
+<body>
+    <h1>Lista de Clientes</h1>
+    <ul>
+        {% for customer in customers %}
+            <li>
+                <a href="{% url 'customer_detail' customer.pk %}">
+                    {{ customer.first_name }} {{ customer.last_name }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

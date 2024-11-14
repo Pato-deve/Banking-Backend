@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle de la Transacción</title>
+</head>
+<body>
+    <h1>Detalle de la Transacción</h1>
+    <p>Tipo de Transacción: {{ transaction.transaction_type }}</p>
+    <p>Monto: ${{ transaction.amount }}</p>
+    <p>Fecha: {{ transaction.date }}</p>
+    <p>Descripción: {{ transaction.description }}</p>
+    <a href="{% url 'transaction_list' %}">Volver a la lista de transacciones</a>
+</body>
+</html>

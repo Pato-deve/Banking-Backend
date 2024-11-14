@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Préstamos</title>
+</head>
+<body>
+    <h1>Lista de Préstamos</h1>
+    <ul>
+        {% for loan in loans %}
+            <li>
+                {{ loan.loan_type }} - Monto: ${{ loan.amount }}
+                <a href="{% url 'loan_detail' loan.pk %}">Ver Detalles</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

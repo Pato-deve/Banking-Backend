@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle del Préstamo</title>
+</head>
+<body>
+    <h1>Detalle del Préstamo</h1>
+    <p>Tipo de Préstamo: {{ loan.loan_type }}</p>
+    <p>Monto: ${{ loan.amount }}</p>
+    <p>Tasa de Interés: {{ loan.interest_rate }}%</p>
+    <p>Fecha de Inicio: {{ loan.start_date }}</p>
+    <p>Fecha de Fin: {{ loan.end_date }}</p>
+    <a href="{% url 'loan_list' %}">Volver a la lista de préstamos</a>
+</body>
+</html>
