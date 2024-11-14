@@ -28,4 +28,4 @@ def register(request):
 def logout_view(request):
     logout(request)
     request.session.flush()
-    return redirect('/')
+    return redirect('home')
