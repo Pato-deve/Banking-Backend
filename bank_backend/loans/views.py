@@ -10,9 +10,6 @@ class LoanListView(LoginRequiredMixin, ListView):
     template_name = 'loans/loan_list.html'
     context_object_name = 'loans'
 
-    def get_queryset(self):
-        return Loan.objects.filter(customer__user=self.request.user)  # Filtra los préstamos del usuario autenticado
-
 class LoanDetailView(LoginRequiredMixin, DetailView):
     model = Loan
     template_name = 'loans/loan_detail.html'
@@ -20,7 +17,7 @@ class LoanDetailView(LoginRequiredMixin, DetailView):
 
 @login_required
 def create_loan(request):
-    customer = request.user.customer  # Asocia el préstamo al cliente autenticado
+    customer = request.user.customer
     if request.method == 'POST':
         form = LoanForm(request.POST)
         if form.is_valid():

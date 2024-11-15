@@ -1,8 +1,6 @@
 from django.db import models
 from customers.models import Customer
 
-# transactions/models.py
-
 class Transaction(models.Model):
     transaction_type = models.ForeignKey('TransactionType', on_delete=models.CASCADE)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)  # lowercase 'customer'

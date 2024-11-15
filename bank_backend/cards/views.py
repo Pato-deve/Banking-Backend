@@ -11,7 +11,7 @@ class CardListView(LoginRequiredMixin, ListView):
     context_object_name = 'cards'
 
     def get_queryset(self):
-        return Card.objects.filter(customer__user=self.request.user)  # Filtra las tarjetas del usuario autenticado
+        return Card.objects.filter(customer__user=self.request.user)
 
 class CardDetailView(LoginRequiredMixin, DetailView):
     model = Card
@@ -24,7 +24,7 @@ def create_card(request):
         form = CardForm(request.POST)
         if form.is_valid():
             card = form.save(commit=False)
-            card.customer = request.user.customer  # Asocia la tarjeta al cliente actual
+            card.customer = request.user.customer
             card.save()
             return redirect('card_list')
     else:

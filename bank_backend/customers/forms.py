@@ -7,7 +7,7 @@ class UserRegistrationForm(forms.ModelForm):
     first_name = forms.CharField(max_length=100)
     last_name = forms.CharField(max_length=100)
     email = forms.EmailField()
-    phone = forms.CharField(max_length=15)  # Campo adicional para el perfil de Customer
+    phone = forms.CharField(max_length=15)
 
     class Meta:
         model = User
@@ -15,11 +15,10 @@ class UserRegistrationForm(forms.ModelForm):
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.set_password(self.cleaned_data["password"])  # Asegúrate de guardar la contraseña de forma segura
+        user.set_password(self.cleaned_data["password"])
 
         if commit:
             user.save()
-            # Crear el perfil Customer al guardar el usuario
             Customer.objects.create(
                 user=user,
                 first_name=self.cleaned_data['first_name'],

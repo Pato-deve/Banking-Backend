@@ -8,5 +8,4 @@ class TransactionForm(forms.ModelForm):
 
     def clean_customer(self):
         customer = self.cleaned_data.get('customer')
-        # Add custom validation logic for customer if necessary
         return customer
