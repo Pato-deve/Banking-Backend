@@ -6,11 +6,21 @@
 </head>
 <body>
     <h1>Lista de Tarjetas</h1>
+
+    <!-- Enlace para crear una nueva tarjeta -->
+    <a href="{% url 'card_create' %}">Agregar Nueva Tarjeta</a>
+
     <ul>
         {% for card in cards %}
             <li>
-                {{ card.card_type }} - Número de Tarjeta: {{ card.card_number|slice:"-4:" }}
+                {{ card.card_type }} - Número de Tarjeta: **** **** **** {{ card.card_number|slice:"-4:" }}
                 <a href="{% url 'card_detail' card.pk %}">Ver Detalles</a>
+
+                <!-- Formulario para eliminar tarjeta -->
+                <form action="{% url 'card_delete' card.pk %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">Eliminar</button>
+                </form>
             </li>
         {% endfor %}
     </ul>
