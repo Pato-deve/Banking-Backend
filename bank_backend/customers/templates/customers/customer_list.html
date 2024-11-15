@@ -15,7 +15,7 @@
             {% for customer in customers %}
                 <li class="py-4 flex justify-between items-center">
                     <div class="text-lg text-gray-800">
-                        <a href="{% url 'customer_detail'%}" class="hover:text-blue-600">
+                        <a href="{% url 'customer_detail' %}" class="hover:text-blue-600">
                             {{ customer.first_name }} {{ customer.last_name }}
                         </a>
                     </div>
