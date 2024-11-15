@@ -12,12 +12,17 @@ class CustomerListView(LoginRequiredMixin, ListView):
     context_object_name = 'customers'
 
     def get_queryset(self):
+        # Filtrar solo los clientes del usuario autenticado
         return Customer.objects.filter(user=self.request.user)
 
-@login_required
-def customer_detail(request):
-    customer = get_object_or_404(Customer, user=request.user)
-    return render(request, 'customers/customer_detail.html', {'customer': customer})
+class CustomerDetailView(LoginRequiredMixin, DetailView):
+    model = Customer
+    template_name = 'customers/customer_detail.html'
+    context_object_name = 'customer'
+
+    def get_object(self):
+        # Garantizar que solo se accedan a los datos del usuario autenticado
+        return get_object_or_404(Customer, pk=self.kwargs['pk'], user=self.request.user)
 
 def register(request):
     if request.method == 'POST':
