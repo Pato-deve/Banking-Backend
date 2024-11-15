@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if transaction %}Edit Transaction{% else %}New Transaction{% endif %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-br from-blue-900 via-purple-900 to-black min-h-screen flex items-center justify-center p-4">
+
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg">
+        <h1 class="text-3xl font-semibold text-center text-gray-800 mb-6">
+            {% if transaction %}Edit Transaction{% else %}New Transaction{% endif %}
+        </h1>
+        
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-4">
+                <label for="customer" class="block text-lg font-medium text-gray-700">Customer:</label>
+                <select name="customer" id="customer" class="mt-2 block w-full px-4 py-2 border border-gray-300 rounded-md">
+                    {% for customer in customers %}
+                        <option value="{{ customer.pk }}" {% if transaction and transaction.customer.pk == customer.pk %}selected{% endif %}>
+                            {{ customer }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label for="transaction_type" class="block text-lg font-medium text-gray-700">Transaction Type:</label>
+                <select name="transaction_type" id="transaction_type" class="mt-2 block w-full px-4 py-2 border border-gray-300 rounded-md">
+                    {% for transaction_type in transaction_types %}
+                        <option value="{{ transaction_type.id }}" {% if transaction and transaction.transaction_type.id == transaction_type.id %}selected{% endif %}>
+                            {{ transaction_type.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label for="amount" class="block text-lg font-medium text-gray-700">Amount:</label>
+                <input type="number" step="0.01" name="amount" id="amount" value="{{ transaction.amount|default_if_none:'' }}" 
+                    class="mt-2 block w-full px-4 py-2 border border-gray-300 rounded-md">
+            </div>
+
+            <div class="mb-4">
+                <label for="description" class="block text-lg font-medium text-gray-700">Description:</label>
+                <textarea name="description" id="description" class="mt-2 block w-full px-4 py-2 border border-gray-300 rounded-md">{{ transaction.description|default_if_none:'' }}</textarea>
+            </div>
+
+            <div class="mb-4 flex justify-center">
+                <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-6 rounded-lg">Save</button>
+            </div>
+        </form>
+
+        <div class="text-center mt-4">
+            <a href="{% url 'transaction_list' %}" class="text-blue-500 hover:text-blue-700">Back to List</a>
+        </div>
+    </div>
+
+</body>
+</html>

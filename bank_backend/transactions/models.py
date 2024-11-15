@@ -1,12 +1,17 @@
 from django.db import models
 from customers.models import Customer
 
+# transactions/models.py
+
 class Transaction(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    transaction_type = models.CharField(max_length=50)
+    transaction_type = models.ForeignKey('TransactionType', on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)  # lowercase 'customer'
     amount = models.DecimalField(max_digits=10, decimal_places=2)
-    date = models.DateField()
-    description = models.TextField(blank=True, null=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+class TransactionType(models.Model):
+    name = models.CharField(max_length=20)
 
     def __str__(self):
-        return f"{self.transaction_type} - ${self.amount} - {self.date.strftime('%Y-%m-%d')}"
+        return self.name
+
