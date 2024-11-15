@@ -4,26 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Homebanking - Inicio</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <header>
-        <h1>Bienvenido a Homebanking</h1>
+<body class="bg-gradient-to-br from-gray-100 to-blue-50 min-h-screen flex flex-col">
+
+    <header class="bg-blue-800 text-white p-4 shadow-lg">
+        <h1 class="text-2xl font-bold text-center">Bienvenido a ItBank</h1>
     </header>
-    <main>
+
+    <main class="flex-grow container mx-auto px-4 py-8">
         {% if user.is_authenticated %}
-            <h2>Hola, {{ user.username }}</h2>
-            <p>Accede a tus servicios bancarios de manera rápida y segura.</p>
-            <a href="{% url 'customer_list' %}">Mis Cuentas</a>
-            <a href="{% url 'transaction_list' %}">Mis Transacciones</a>
-            <a href="{% url 'loan_list' %}">Mis Préstamos</a>
-            <a href="{% url 'card_list' %}">Mis Tarjetas</a>
-            <a href="{% url 'logout' %}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar Sesión</a>
-            <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
-                {% csrf_token %}
-            </form>
+            <div class="text-center space-y-4">
+                <h2 class="text-xl font-semibold text-gray-800">Hola, {{ user.username }}</h2>
+                <p class="text-gray-600">Accede a tus servicios bancarios de manera rápida y segura.</p>
+                <div class="space-y-2">
+                    <a href="{% url 'customer_list' %}" class="block bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md shadow">Mis Cuentas</a>
+                    <a href="{% url 'transaction_list' %}" class="block bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md shadow">Mis Transacciones</a>
+                    <a href="{% url 'loan_list' %}" class="block bg-yellow-600 hover:bg-yellow-700 text-white py-2 px-4 rounded-md shadow">Mis Préstamos</a>
+                    <a href="{% url 'card_list' %}" class="block bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded-md shadow">Mis Tarjetas</a>
+                </div>
+                <a href="{% url 'logout' %}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="text-red-600 hover:text-red-800 mt-4 inline-block">
+                    Cerrar Sesión
+                </a>
+                <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
+                    {% csrf_token %}
+                </form>
+            </div>
         {% else %}
-            <p>Por favor, <a href="{% url 'login' %}">inicia sesión</a> o <a href="{% url 'register' %}">regístrate</a> para acceder a tus servicios bancarios.</p>
+            <div class="text-center">
+                <p class="text-gray-600">Por favor,
+                    <a href="{% url 'login' %}" class="text-blue-600 hover:underline">inicia sesión</a>
+                    o
+                    <a href="{% url 'register' %}" class="text-blue-600 hover:underline">regístrate</a>
+                    para acceder a tus servicios bancarios.
+                </p>
+            </div>
         {% endif %}
     </main>
+
+    <footer class="bg-gray-800 text-white text-center py-4">
+        <p>&copy; 2024 ItBank.</p>
+    </footer>
+
 </body>
 </html>

@@ -2,15 +2,39 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalle del Préstamo</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Detalle del Préstamo</h1>
-    <p>Tipo de Préstamo: {{ loan.loan_type }}</p>
-    <p>Monto: ${{ loan.amount }}</p>
-    <p>Tasa de Interés: {{ loan.interest_rate }}%</p>
-    <p>Fecha de Inicio: {{ loan.start_date }}</p>
-    <p>Fecha de Fin: {{ loan.end_date }}</p>
-    <a href="{% url 'loan_list' %}">Volver a la lista de préstamos</a>
+<body class="bg-gradient-to-br from-gray-100 to-blue-50 min-h-screen flex items-center justify-center p-4">
+
+    <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+        <h1 class="text-3xl font-bold text-blue-800 text-center mb-6">Detalle del Préstamo</h1>
+
+        <div class="space-y-4">
+            <p class="text-lg text-gray-700">
+                <strong class="text-gray-800">Tipo de Préstamo:</strong> {{ loan.loan_type }}
+            </p>
+            <p class="text-lg text-gray-700">
+                <strong class="text-gray-800">Monto:</strong> ${{ loan.amount }}
+            </p>
+            <p class="text-lg text-gray-700">
+                <strong class="text-gray-800">Tasa de Interés:</strong> {{ loan.interest_rate }}%
+            </p>
+            <p class="text-lg text-gray-700">
+                <strong class="text-gray-800">Fecha de Inicio:</strong> {{ loan.start_date }}
+            </p>
+            <p class="text-lg text-gray-700">
+                <strong class="text-gray-800">Fecha de Fin:</strong> {{ loan.end_date }}
+            </p>
+        </div>
+
+        <div class="mt-6 text-center">
+            <a href="{% url 'loan_list' %}" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md shadow">
+                Volver a la lista de préstamos
+            </a>
+        </div>
+    </div>
+
 </body>
 </html>

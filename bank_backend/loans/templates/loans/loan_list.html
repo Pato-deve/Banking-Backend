@@ -2,17 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Préstamos</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Lista de Préstamos</h1>
-    <ul>
-        {% for loan in loans %}
-            <li>
-                {{ loan.loan_type }} - Monto: ${{ loan.amount }}
-                <a href="{% url 'loan_detail' loan.pk %}">Ver Detalles</a>
-            </li>
-        {% endfor %}
-    </ul>
+<body class="bg-gradient-to-br from-gray-100 to-blue-50 min-h-screen flex items-center justify-center p-4">
+
+    <div class="bg-white p-8 rounded-lg shadow-lg max-w-3xl w-full">
+        <h1 class="text-3xl font-bold text-blue-800 text-center mb-6">Lista de Préstamos</h1>
+
+        <ul class="divide-y divide-gray-200">
+            {% for loan in loans %}
+                <li class="py-4 flex justify-between items-center">
+                    <div>
+                        <p class="text-lg text-gray-800"><strong>{{ loan.loan_type }}</strong></p>
+                        <p class="text-gray-600">Monto: ${{ loan.amount }}</p>
+                    </div>
+                    <a href="{% url 'loan_detail' loan.pk %}" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md shadow">
+                        Ver Detalles
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
 </body>
 </html>

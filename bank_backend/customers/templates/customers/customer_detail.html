@@ -2,12 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalle de la Tarjeta</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Detalle de la Tarjeta</h1>
-    <p>Tipo de Tarjeta: {{ card.card_type }}</p>
-    <p>Número de Tarjeta: {{ card.card_number }}</p>
-    <p>Fecha de Expiración: {{ card.expiration_date }}</p>
+<body class="bg-gradient-to-br from-gray-100 to-blue-50 min-h-screen flex items-center justify-center p-4">
+
+    <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+        <h1 class="text-3xl font-bold text-blue-800 text-center mb-6">Detalle de la Tarjeta</h1>
+
+        <div class="space-y-4">
+            <p class="text-lg text-gray-700">
+                <strong class="text-gray-800">Tipo de Tarjeta:</strong> {{ card.card_type }}
+            </p>
+            <p class="text-lg text-gray-700">
+                <strong class="text-gray-800">Número de Tarjeta:</strong> **** **** **** {{ card.card_number|slice:"-4:" }}
+            </p>
+            <p class="text-lg text-gray-700">
+                <strong class="text-gray-800">Fecha de Expiración:</strong> {{ card.expiration_date }}
+            </p>
+        </div>
+    </div>
+
 </body>
 </html>

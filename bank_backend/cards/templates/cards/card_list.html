@@ -2,27 +2,56 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Lista de Tarjetas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Tarjetas</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Lista de Tarjetas</h1>
+<body class="bg-gradient-to-br from-gray-100 to-blue-50 min-h-screen flex flex-col items-center py-8">
 
-    <!-- Enlace para crear una nueva tarjeta -->
-    <a href="{% url 'card_create' %}">Agregar Nueva Tarjeta</a>
+    <div class="w-full max-w-5xl bg-white shadow-xl rounded-xl overflow-hidden">
+        <header class="bg-blue-600 py-6 px-8 text-white">
+            <h1 class="text-3xl font-bold">Mis Tarjetas</h1>
+            <p class="text-blue-200">Administra y visualiza tus tarjetas de manera segura.</p>
+        </header>
 
-    <ul>
-        {% for card in cards %}
-            <li>
-                {{ card.card_type }} - Número de Tarjeta: **** **** **** {{ card.card_number|slice:"-4:" }}
-                <a href="{% url 'card_detail' card.pk %}">Ver Detalles</a>
+        <main class="p-8">
+            <div class="text-right mb-6">
+                <a href="{% url 'card_create' %}" class="bg-green-500 hover:bg-green-600 text-white py-2 px-6 rounded-md shadow">
+                    + Agregar Tarjeta
+                </a>
+            </div>
 
-                <!-- Formulario para eliminar tarjeta -->
-                <form action="{% url 'card_delete' card.pk %}" method="post" style="display:inline;">
-                    {% csrf_token %}
-                    <button type="submit">Eliminar</button>
-                </form>
-            </li>
-        {% endfor %}
-    </ul>
+            <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {% for card in cards %}
+                    <li class="bg-gray-50 border border-gray-200 rounded-lg shadow-sm p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="flex-shrink-0 bg-blue-100 p-3 rounded-full">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h11M9 21v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6M21 21v-6a2 2 0 00-2-2h-2a2 2 0 00-2 2v6M7 10V5a2 2 0 012-2h6a2 2 0 012 2v5" />
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-lg font-semibold text-gray-800">{{ card.card_type }}</p>
+                                <p class="text-sm text-gray-600">**** **** **** {{ card.card_number|slice:"-4:" }}</p>
+                                <p class="text-xs text-gray-400">Expira: {{ card.expiration_date }}</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-between">
+                            <a href="{% url 'card_detail' card.pk %}" class="text-blue-600 hover:underline">Ver Detalles</a>
+                            <form action="{% url 'card_delete' card.pk %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="text-red-600 hover:underline">Eliminar</button>
+                            </form>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </main>
+
+        <footer class="bg-gray-100 text-gray-600 text-center py-4">
+            <p>&copy; 2024 Homebanking. Todos los derechos reservados.</p>
+        </footer>
+    </div>
+
 </body>
 </html>
