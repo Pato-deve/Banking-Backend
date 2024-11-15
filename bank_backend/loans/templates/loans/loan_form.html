@@ -3,27 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Préstamos</title>
+    <title>{% if form.instance.pk %}Editar Préstamo{% else %}Nuevo Préstamo{% endif %}</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gradient-to-br from-gray-100 to-blue-50 min-h-screen flex items-center justify-center p-4">
 
-    <div class="bg-white p-8 rounded-lg shadow-lg max-w-3xl w-full">
-        <h1 class="text-3xl font-bold text-blue-800 text-center mb-6">Lista de Préstamos</h1>
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg">
+        <h1 class="text-3xl font-bold text-blue-800 text-center mb-6">
+            {% if form.instance.pk %}Editar Préstamo{% else %}Nuevo Préstamo{% endif %}
+        </h1>
 
-        <ul class="divide-y divide-gray-200">
-            {% for loan in loans %}
-                <li class="py-4 flex justify-between items-center">
-                    <div>
-                        <p class="text-lg text-gray-800"><strong>{{ loan.loan_type }}</strong></p>
-                        <p class="text-gray-600">Monto: ${{ loan.amount }}</p>
-                    </div>
-                    <a href="{% url 'loan_detail' loan.pk %}" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md shadow">
-                        Ver Detalles
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            <div>
+                <label for="loan_type" class="block text-gray-700 font-medium">Tipo de Préstamo:</label>
+                {{ form.loan_type }}
+            </div>
+
+            <div>
+                <label for="amount" class="block text-gray-700 font-medium">Monto:</label>
+                {{ form.amount }}
+            </div>
+
+            <div>
+                <label for="interest_rate" class="block text-gray-700 font-medium">Tasa de Interés (%):</label>
+                {{ form.interest_rate }}
+            </div>
+
+            <div>
+                <label for="start_date" class="block text-gray-700 font-medium">Fecha de Inicio:</label>
+                {{ form.start_date }}
+            </div>
+
+            <div>
+                <label for="end_date" class="block text-gray-700 font-medium">Fecha de Fin:</label>
+                {{ form.end_date }}
+            </div>
+
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-md shadow w-full">
+                {% if form.instance.pk %}Actualizar Préstamo{% else %}Crear Préstamo{% endif %}
+            </button>
+        </form>
+
+        <div class="mt-4 text-center">
+            <a href="{% url 'loan_list' %}" class="text-blue-600 hover:underline">Volver a la lista de préstamos</a>
+        </div>
     </div>
 
 </body>

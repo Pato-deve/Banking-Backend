@@ -5,10 +5,12 @@ from django.views.generic import ListView, DetailView
 from .models import Loan
 from .forms import LoanForm
 
-class LoanListView(LoginRequiredMixin, ListView):
-    model = Loan
-    template_name = 'loans/loan_list.html'
-    context_object_name = 'loans'
+@login_required
+def loan_list(request):
+    customer = request.user.customer
+    loans = Loan.objects.filter(customer=customer)
+
+    return render(request, 'loans/loan_list.html', {'loans': loans})
 
 class LoanDetailView(LoginRequiredMixin, DetailView):
     model = Loan
