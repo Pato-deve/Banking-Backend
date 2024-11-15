@@ -15,36 +15,60 @@
 
         <form method="post" class="space-y-4">
             {% csrf_token %}
-            <div>
-                <label for="loan_type" class="block text-gray-700 font-medium">Tipo de Préstamo:</label>
-                {{ form.loan_type }}
+
+            <!-- Tipo de Préstamo -->
+            <div class="mb-4">
+                <label for="loan_type" class="block text-sm font-semibold text-gray-700">Tipo de Préstamo</label>
+                <select id="loan_type" name="loan_type" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500">
+                    <option value="personal" {% if form.loan_type.value == 'personal' %}selected{% endif %}>Personal</option>
+                    <option value="hipotecario" {% if form.loan_type.value == 'hipotecario' %}selected{% endif %}>Hipotecario</option>
+                    <option value="automovil" {% if form.loan_type.value == 'automovil' %}selected{% endif %}>Automovil</option>
+                </select>
             </div>
 
-            <div>
-                <label for="amount" class="block text-gray-700 font-medium">Monto:</label>
-                {{ form.amount }}
+            <!-- Monto -->
+            <div class="mb-4">
+                <label for="amount" class="block text-sm font-semibold text-gray-700">Monto</label>
+                <input type="number" id="amount" name="amount" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" placeholder="Ej. 10000" value="{{ form.amount.value }}">
+                {% if loan_limit %}
+                    <p class="mt-2 text-sm text-gray-500">Límite máximo para tu tipo de cliente: ${{ loan_limit }}</p>
+                {% endif %}
             </div>
 
-            <div>
-                <label for="interest_rate" class="block text-gray-700 font-medium">Tasa de Interés (%):</label>
-                {{ form.interest_rate }}
+            <!-- Tasa de Interés -->
+            <div class="mb-4">
+                <label for="interest_rate" class="block text-sm font-semibold text-gray-700">Tasa de Interés (%)</label>
+                <input type="number" step="0.01" id="interest_rate" name="interest_rate" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" placeholder="Ej. 5.25" value="{{ form.interest_rate.value }}">
             </div>
 
-            <div>
-                <label for="start_date" class="block text-gray-700 font-medium">Fecha de Inicio:</label>
-                {{ form.start_date }}
+            <!-- Fecha de Inicio -->
+            <div class="mb-4">
+                <label for="start_date" class="block text-sm font-semibold text-gray-700">Fecha de Inicio</label>
+                <input type="date" id="start_date" name="start_date" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" value="{{ form.start_date.value }}">
             </div>
 
-            <div>
-                <label for="end_date" class="block text-gray-700 font-medium">Fecha de Fin:</label>
-                {{ form.end_date }}
+            <!-- Fecha de Fin -->
+            <div class="mb-4">
+                <label for="end_date" class="block text-sm font-semibold text-gray-700">Fecha de Fin</label>
+                <input type="date" id="end_date" name="end_date" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" value="{{ form.end_date.value }}">
             </div>
 
+            <!-- Mensaje de Aprobación/Rechazo -->
+            {% if loan_status %}
+                <div class="text-center mt-4">
+                    <p class="text-lg font-semibold {% if loan_status == 'Aprobado' %}text-green-600{% else %}text-red-600{% endif %}">
+                        Solicitud de préstamo {{ loan_status }}.
+                    </p>
+                </div>
+            {% endif %}
+
+            <!-- Botón de envío -->
             <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-md shadow w-full">
                 {% if form.instance.pk %}Actualizar Préstamo{% else %}Crear Préstamo{% endif %}
             </button>
         </form>
 
+        <!-- Enlace a la lista de préstamos -->
         <div class="mt-4 text-center">
             <a href="{% url 'loan_list' %}" class="text-blue-600 hover:underline">Volver a la lista de préstamos</a>
         </div>
