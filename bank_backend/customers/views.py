@@ -12,7 +12,6 @@ class CustomerListView(LoginRequiredMixin, ListView):
     context_object_name = 'customers'
 
     def get_queryset(self):
-        # Filtrar clientes por el usuario que está logueado
         return Customer.objects.filter(user=self.request.user)
 
 @login_required
