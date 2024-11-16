@@ -6,30 +6,35 @@ class LoanForm(forms.ModelForm):
         model = Loan
         fields = ['loan_type', 'amount', 'interest_rate', 'start_date', 'end_date']
         widgets = {
-            'loan_type': forms.Select(attrs={'class': 'form-control'}),
+            'loan_type': forms.Select(choices=Loan.LOAN_TYPE_CHOICES, attrs={'class': 'form-control'}),
             'amount': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
             'interest_rate': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
             'start_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
             'end_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
         }
 
-    def clean_amount(self):
-        # Obtener el monto solicitado
-        amount = self.cleaned_data.get('amount')
-        customer = self.instance.customer
+    def __init__(self, *args, **kwargs):
+        self.customer = kwargs.pop('customer', None)
+        super().__init__(*args, **kwargs)
 
-        # Establecer los límites de preaprobación según el tipo de cliente
+    def clean_amount(self):
+        amount = self.cleaned_data.get('amount')
+
         loan_limits = {
-            'BLACK': 500000,
-            'GOLD': 300000,
-            'CLASSIC': 100000,
+            'Black': 500000,
+            'Gold': 300000,
+            'Classic': 100000,
         }
 
-        loan_type = customer.user.profile.type  # Suponiendo que el tipo de cliente está en el perfil del usuario
-        max_loan_amount = loan_limits.get(loan_type, 0)
+        customer = self.customer
+        if customer:
+            loan_type = customer.account_type
+            max_loan_amount = loan_limits.get(loan_type, 0)
 
-        # Validar si el monto solicitado está dentro del límite permitido
-        if amount > max_loan_amount:
-            raise forms.ValidationError(f"El monto solicitado excede el límite para su tipo de cliente ({loan_type}). El límite es ${max_loan_amount}.")
+            if amount > max_loan_amount:
+                raise forms.ValidationError(
+                    f"El monto solicitado excede el límite para su tipo de cliente ({loan_type}). "
+                    f"El límite es ${max_loan_amount}."
+                )
 
         return amount

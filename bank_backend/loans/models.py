@@ -3,9 +3,9 @@ from customers.models import Customer
 
 class Loan(models.Model):
     LOAN_TYPE_CHOICES = [
-        ('Personal', 'Personal'),
-        ('Hipotecario', 'Hipotecario'),
-        ('Prendario', 'Prendario'),
+        ('personal', 'personal'),
+        ('hipotecario', 'hipotecario'),
+        ('prendario', 'prendario'),
     ]
 
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)

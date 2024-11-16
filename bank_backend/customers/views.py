@@ -1,4 +1,3 @@
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView
 from .models import Customer
@@ -12,7 +11,6 @@ class CustomerListView(LoginRequiredMixin, ListView):
     context_object_name = 'customers'
 
     def get_queryset(self):
-        # Filtrar solo los clientes del usuario autenticado
         return Customer.objects.filter(user=self.request.user)
 
 class CustomerDetailView(LoginRequiredMixin, DetailView):
@@ -21,7 +19,6 @@ class CustomerDetailView(LoginRequiredMixin, DetailView):
     context_object_name = 'customer'
 
     def get_object(self):
-        # Garantizar que solo se accedan a los datos del usuario autenticado
         return get_object_or_404(Customer, pk=self.kwargs['pk'], user=self.request.user)
 
 def register(request):
