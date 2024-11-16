@@ -5,6 +5,11 @@ class TransactionForm(forms.ModelForm):
     class Meta:
         model = Transaction
         fields = ['transaction_type', 'customer', 'amount']
+        widgets = {
+            'transaction_type': forms.Select(attrs={'class': 'form-control'}),
+            'customer': forms.Select(attrs={'class': 'form-control'}),
+            'amount': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
+        }
 
     def clean_customer(self):
         customer = self.cleaned_data.get('customer')

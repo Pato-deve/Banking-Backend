@@ -20,7 +20,7 @@
                 <select name="customer" id="customer" class="mt-2 block w-full px-4 py-2 border border-gray-300 rounded-md">
                     {% for customer in customers %}
                         <option value="{{ customer.pk }}" {% if transaction and transaction.customer.pk == customer.pk %}selected{% endif %}>
-                            {{ customer }}
+                            {{ customer.first_name }} {{ customer.last_name }}
                         </option>
                     {% endfor %}
                 </select>
@@ -29,11 +29,8 @@
             <div>
                 <label for="transaction_type" class="block text-lg font-medium text-gray-700">Tipo de Transacción:</label>
                 <select name="transaction_type" id="transaction_type" class="mt-2 block w-full px-4 py-2 border border-gray-300 rounded-md">
-                    {% for transaction_type in transaction_types %}
-                        <option value="{{ transaction_type.id }}" {% if transaction and transaction.transaction_type.id == transaction_type.id %}selected{% endif %}>
-                            {{ transaction_type.name }}
-                        </option>
-                    {% endfor %}
+                    <option value="Retiro" {% if transaction and transaction.transaction_type == "Retiro" %}selected{% endif %}>Retiro</option>
+                    <option value="Transferencia" {% if transaction and transaction.transaction_type == "Transferencia" %}selected{% endif %}>Transferencia</option>
                 </select>
             </div>
 

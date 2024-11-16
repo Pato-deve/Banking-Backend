@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Transaction, TransactionType
+from .models import Transaction
 from .forms import TransactionForm
 from customers.models import Customer
 
@@ -17,7 +17,6 @@ def transaction_detail(request, pk):
 @login_required
 def transaction_create(request):
     customers = Customer.objects.filter(user=request.user)
-    transaction_types = TransactionType.objects.all()
 
     if request.method == 'POST':
         form = TransactionForm(request.POST)
@@ -32,8 +31,7 @@ def transaction_create(request):
 
     return render(request, 'transactions/transactions_form.html', {
         'form': form,
-        'customers': customers,
-        'transaction_types': transaction_types
+        'customers': customers
     })
 
 @login_required
