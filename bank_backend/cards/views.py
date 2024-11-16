@@ -27,6 +27,8 @@ def create_card(request):
             card.customer = request.user.customer
             card.save()
             return redirect('card_list')
+        else:
+            print(form.errors)
     else:
         form = CardForm()
     return render(request, 'cards/card_form.html', {'form': form})

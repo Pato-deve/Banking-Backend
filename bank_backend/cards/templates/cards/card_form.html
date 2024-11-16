@@ -1,81 +1,45 @@
-<!-- card_form.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% if form.instance.pk %}Editar Tarjeta{% else %}Nueva Tarjeta{% endif %}</title>
+    <title>Formulario de Tarjeta</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const cardNumberField = document.getElementById('card_number');
-            const cvvField = document.getElementById('cvv');
-
-            // Restringir la entrada a solo números para el campo de número de tarjeta
-            cardNumberField.addEventListener('input', function(e) {
-                this.value = this.value.replace(/\D/g, ''); // Eliminar todo lo que no sea un número
-                if (this.value.length > 16) {
-                    this.value = this.value.slice(0, 16); // Truncar a 16 caracteres
-                }
-            });
-
-            // Restringir la entrada a solo números para el campo CVV
-            cvvField.addEventListener('input', function(e) {
-                this.value = this.value.replace(/\D/g, ''); // Eliminar todo lo que no sea un número
-                if (this.value.length > 3) {
-                    this.value = this.value.slice(0, 3); // Truncar a 3 caracteres
-                }
-            });
-        });
-    </script>
 </head>
 <body class="bg-gradient-to-br from-gray-100 to-blue-50 min-h-screen flex items-center justify-center p-4">
-
-    <div class="bg-white p-8 rounded-lg shadow-lg max-w-lg w-full">
+    <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
         <h1 class="text-3xl font-bold text-blue-800 text-center mb-6">
             {% if form.instance.pk %}Editar Tarjeta{% else %}Nueva Tarjeta{% endif %}
         </h1>
-
         <form method="post" class="space-y-4">
             {% csrf_token %}
-
-            <!-- Card Number Field -->
-            <div class="mb-4">
-                <label for="card_number" class="block text-sm font-semibold text-gray-700">Número de Tarjeta</label>
-                <input type="text" id="card_number" name="card_number" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" placeholder="1234 5678 9012 3456" inputmode="numeric" maxlength="16" value="{{ form.card_number.value|default:'' }}" pattern="\d*" />
+            <div>
+                <label for="card_number" class="block text-lg font-medium text-gray-700">Número de Tarjeta</label>
+                {{ form.card_number }}
             </div>
-
-            <!-- Card Type Field -->
-            <div class="mb-4">
-                <label for="card_type" class="block text-sm font-semibold text-gray-700">Tipo de Tarjeta</label>
-                <select id="card_type" name="card_type" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500">
-                    <option value="credit" {% if form.card_type.value == 'credit' %}selected{% endif %}>Crédito</option>
-                    <option value="debit" {% if form.card_type.value == 'debit' %}selected{% endif %}>Débito</option>
-                </select>
+            <div>
+                <label for="card_type" class="block text-lg font-medium text-gray-700">Tipo de Tarjeta</label>
+                {{ form.card_type }}
             </div>
-
-            <!-- Expiration Date Field -->
-            <div class="mb-4">
-                <label for="expiration_date" class="block text-sm font-semibold text-gray-700">Fecha de Expiración</label>
-                <input type="month" id="expiration_date" name="expiration_date" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" placeholder="MM/YY" value="{{ form.expiration_date.value|default:'' }}" />
+            <div>
+                <label for="expiration_month" class="block text-lg font-medium text-gray-700">Mes de Expiración</label>
+                {{ form.expiration_month }}
             </div>
-
-            <!-- CVV Field -->
-            <div class="mb-4">
-                <label for="cvv" class="block text-sm font-semibold text-gray-700">CVV</label>
-                <input type="text" id="cvv" name="cvv" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" placeholder="123" inputmode="numeric" maxlength="3" value="{{ form.cvv.value|default:'' }}" pattern="\d*" />
+            <div>
+                <label for="expiration_year" class="block text-lg font-medium text-gray-700">Año de Expiración</label>
+                {{ form.expiration_year }}
             </div>
-
-            <div class="flex justify-between items-center">
-                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-md shadow">
-                    {% if form.instance.pk %}Guardar{% else %}Crear{% endif %}
-                </button>
-                <a href="{% url 'card_list' %}" class="text-gray-600 hover:text-gray-800">
-                    Cancelar
-                </a>
+            <div>
+                <label for="cvv" class="block text-lg font-medium text-gray-700">CVV</label>
+                {{ form.cvv }}
             </div>
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md w-full">
+                {% if form.instance.pk %}Guardar{% else %}Crear{% endif %}
+            </button>
         </form>
+        <div class="text-center mt-4">
+            <a href="{% url 'card_list' %}" class="text-blue-600 hover:underline">Cancelar</a>
+        </div>
     </div>
-
 </body>
 </html>
