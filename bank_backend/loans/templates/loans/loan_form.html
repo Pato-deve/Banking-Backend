@@ -30,6 +30,9 @@
             <div class="mb-4">
                 <label for="amount" class="block text-sm font-semibold text-gray-700">Monto</label>
                 <input type="number" id="amount" name="amount" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500" placeholder="Ej. 10000" value="{{ form.amount.value }}">
+                {% if form.errors.amount %}
+                    <p class="mt-2 text-sm text-red-500">{{ form.errors.amount.0 }}</p>
+                {% endif %}
                 {% if loan_limit %}
                     <p class="mt-2 text-sm text-gray-500">Límite máximo para tu tipo de cliente: ${{ loan_limit }}</p>
                 {% endif %}

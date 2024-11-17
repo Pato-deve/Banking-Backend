@@ -26,6 +26,8 @@ def transaction_create(request):
                 return redirect('transaction_list')
             transaction.save()
             return redirect('transaction_detail', pk=transaction.pk)
+        else:
+            print(form.errors)
     else:
         form = TransactionForm()
 
