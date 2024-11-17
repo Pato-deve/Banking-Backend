@@ -3,33 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalle de la Tarjeta</title>
+    <title>Detalles de la Tarjeta</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    
+    <!-- FontAwesome: Asegúrate de que esta línea esté incluida -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    
+    <script>
+        function toggleCardNumberVisibility() {
+            var cardNumberField = document.getElementById("card_number_text");
+            var eyeIcon = document.getElementById("eye_icon");
+
+            if (cardNumberField.innerText === "**** **** **** 1234") {
+                cardNumberField.innerText = "1234 5678 9876 5432"; // Aquí coloca el número completo de la tarjeta
+                eyeIcon.classList.remove("fa-eye-slash");
+                eyeIcon.classList.add("fa-eye");
+            } else {
+                cardNumberField.innerText = "**** **** **** 1234"; // Mostrar como oculto
+                eyeIcon.classList.remove("fa-eye");
+                eyeIcon.classList.add("fa-eye-slash");
+            }
+        }
+
+        function toggleCVVVisibility() {
+            var cvvField = document.getElementById("cvv_text");
+            var cvvEyeIcon = document.getElementById("cvv_eye_icon");
+
+            if (cvvField.innerText === "***") {
+                cvvField.innerText = "123"; // Aquí coloca el CVV completo
+                cvvEyeIcon.classList.remove("fa-eye-slash");
+                cvvEyeIcon.classList.add("fa-eye");
+            } else {
+                cvvField.innerText = "***"; // Mostrar como oculto
+                cvvEyeIcon.classList.remove("fa-eye");
+                cvvEyeIcon.classList.add("fa-eye-slash");
+            }
+        }
+    </script>
 </head>
 <body class="bg-gradient-to-br from-gray-100 to-blue-50 min-h-screen flex items-center justify-center p-4">
-
     <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
-        <h1 class="text-3xl font-bold text-blue-800 text-center mb-6">Detalle de la Tarjeta</h1>
-
-        <div class="space-y-4">
-            <p class="text-lg text-gray-700">
-                <strong class="text-gray-800">Tipo de Tarjeta:</strong> {{ card.card_type }}
-            </p>
-            <p class="text-lg text-gray-700">
-                <strong class="text-gray-800">Número de Tarjeta:</strong> **** **** **** {{ card.card_number|slice:"-4:" }}
-            </p>
-            <p class="text-lg text-gray-700">
-                <strong class="text-gray-800">Fecha de Expiración:</strong> {{ card.expiration_date }}
-            </p>
-            <p class="text-lg text-gray-700">
-                <strong class="text-gray-800">CVV:</strong> {{ card.cvv }}
-            </p>
+        <h1 class="text-3xl font-bold text-blue-800 text-center mb-6">Detalles de la Tarjeta</h1>
+        
+        <!-- Número de Tarjeta -->
+        <div class="mb-4 flex items-center space-x-2">
+            <label for="card_number" class="block text-lg font-medium text-gray-800 mb-2">Número de Tarjeta:</label>
+            <span id="card_number_text" class="text-lg font-medium text-gray-800">**** **** **** 1234</span>
+            <button type="button" onclick="toggleCardNumberVisibility()" class="p-2">
+                <i id="eye_icon" class="fas fa-eye-slash text-gray-600"></i>
+            </button>
         </div>
 
-        <div class="mt-6 text-center">
-            <a href="{% url 'card_list' %}" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md">Volver a la Lista</a>
+        <!-- CVV -->
+        <div class="mb-4 flex items-center space-x-2">
+            <label for="cvv" class="block text-lg font-medium text-gray-800 mb-2">CVV:</label>
+            <span id="cvv_text" class="text-lg font-medium text-gray-800">***</span>
+            <button type="button" onclick="toggleCVVVisibility()" class="p-2">
+                <i id="cvv_eye_icon" class="fas fa-eye-slash text-gray-600"></i>
+            </button>
+        </div>
+
+        <!-- Otros detalles de la tarjeta (como el tipo, fecha de expiración, etc.) -->
+        <div class="mb-4">
+            <p class="block text-lg font-medium text-gray-800 mb-2"><strong>Tipo de Tarjeta:</strong> {{ card.card_type }}</p>
+            <!-- Mostrar la fecha de expiración como un solo campo -->
+            <p class="block text-lg font-medium text-gray-800 mb-2"><strong>Fecha de Expiración:</strong> {{ card.expiration_date|date:"m/Y" }}</p>
+        </div>
+        
+        <!-- Botón de Volver -->
+        <div class="text-center mt-4">
+            <a href="{% url 'card_list' %}" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md shadow">Volver a la lista</a>
         </div>
     </div>
-
 </body>
 </html>

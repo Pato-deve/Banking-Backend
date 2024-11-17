@@ -5,40 +5,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario de Tarjeta</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script>
+        // Función para permitir solo números
+        function allowOnlyNumbers(event) {
+            const input = event.target;
+            const value = input.value;
+            // Reemplaza cualquier caracter no numérico
+            input.value = value.replace(/\D/g, ''); // Solo mantiene los dígitos numéricos
+        }
+    </script>
 </head>
 <body class="bg-gradient-to-br from-gray-100 to-blue-50 min-h-screen flex items-center justify-center p-4">
     <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
         <h1 class="text-3xl font-bold text-blue-800 text-center mb-6">
             {% if form.instance.pk %}Editar Tarjeta{% else %}Nueva Tarjeta{% endif %}
         </h1>
-        <form method="post" class="space-y-4">
+        <form method="post" class="space-y-6">
             {% csrf_token %}
+            
+            <!-- Número de Tarjeta -->
             <div>
-                <label for="card_number" class="block text-lg font-medium text-gray-700">Número de Tarjeta</label>
-                {{ form.card_number }}
+                <label for="card_number" class="block text-lg font-medium text-gray-700 mb-2">Número de Tarjeta</label>
+                <input type="text" name="card_number" id="card_number" 
+                    class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                    placeholder="Ingrese el número de tarjeta" 
+                    maxlength="16" 
+                    oninput="allowOnlyNumbers(event)" required>
             </div>
+
+            <!-- Tipo de Tarjeta -->
             <div>
-                <label for="card_type" class="block text-lg font-medium text-gray-700">Tipo de Tarjeta</label>
-                {{ form.card_type }}
+                <label for="card_type" class="block text-lg font-medium text-gray-700 mb-2">Tipo de Tarjeta</label>
+                <select name="card_type" id="card_type" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="Visa">Visa</option>
+                    <option value="MasterCard">MasterCard</option>
+                    <option value="Amex">American Express</option>
+                </select>
             </div>
+
+            <!-- Fecha de Expiración -->
             <div>
-                <label for="expiration_month" class="block text-lg font-medium text-gray-700">Mes de Expiración</label>
-                {{ form.expiration_month }}
+                <label for="expiration_date" class="block text-lg font-medium text-gray-700 mb-2">Fecha de Expiración</label>
+                <input type="date" name="expiration_date" id="expiration_date" 
+                    class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                    value="{{ form.expiration_date.value }}" required>
             </div>
+
+            <!-- CVV -->
             <div>
-                <label for="expiration_year" class="block text-lg font-medium text-gray-700">Año de Expiración</label>
-                {{ form.expiration_year }}
+                <label for="cvv" class="block text-lg font-medium text-gray-700 mb-2">CVV</label>
+                <input type="text" name="cvv" id="cvv" 
+                    class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                    placeholder="Ingrese el CVV" 
+                    maxlength="3" 
+                    oninput="allowOnlyNumbers(event)" required>
             </div>
-            <div>
-                <label for="cvv" class="block text-lg font-medium text-gray-700">CVV</label>
-                {{ form.cvv }}
-            </div>
-            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md w-full">
+
+            <!-- Botón de Enviar -->
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-md w-full text-lg">
                 {% if form.instance.pk %}Guardar{% else %}Crear{% endif %}
             </button>
         </form>
+        
+        <!-- Enlace de Cancelar -->
         <div class="text-center mt-4">
-            <a href="{% url 'card_list' %}" class="text-blue-600 hover:underline">Cancelar</a>
+            <a href="{% url 'card_list' %}" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md shadow">Cancelar</a>
         </div>
     </div>
 </body>
