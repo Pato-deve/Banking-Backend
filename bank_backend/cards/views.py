@@ -23,7 +23,11 @@ def create_card(request):
     if request.method == 'POST':
         form = CardForm(request.POST)
         if form.is_valid():
+            # Obtener el valor de la fecha de expiración directamente
+            expiration_date = form.cleaned_data['expiration_date']
+
             card = form.save(commit=False)
+            card.expiration_date = expiration_date
             card.customer = request.user.customer
             card.save()
             return redirect('card_list')
